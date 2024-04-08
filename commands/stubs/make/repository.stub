@@ -1,0 +1,65 @@
+{{#var moduleName = string(moduleName).toString() }}
+{{#var repositoryName = string(repositoryName).singular().pascalCase().toString() }}
+{{#var fileName = string(repositoryName).snakeCase().suffix('_repository').ext('.ts').toString()}}
+{{{
+  exports({
+    to: app.makePath('app',moduleName,'repositories',fileName)
+  })
+}}}
+
+import { db } from '#core/services/db'
+import { ResultOf } from '#types/common'
+
+interface StoreDTO {}
+interface UpdateDTO {
+  id: string
+}
+
+export type {{repositoryName}}ListQueryResult = ResultOf<{{repositoryName}}Repository, 'all'>
+//export type {{repositoryName}}QueryResult = ResultOf<{{repositoryName}}Repository, 'findBySlug'>
+export type {{repositoryName}}ByIdQueryResult = ResultOf<{{repositoryName}}Repository, 'findById'>
+
+
+export class {{repositoryName}}Repository {
+ all() {
+ return db
+    .selectFrom('tableName') //replace 'tableName'
+    .select(['id', 'created_at']) // Add Selected fields
+    .execute()
+    }
+
+  create(payload: StoreDTO) {
+    return db
+      .insertInto('tableName')
+      .values({
+        created_at: new Date(),
+        updated_at: new Date(),
+        // Add Values
+      })
+      .execute()
+  }
+
+  update(payload: UpdateDTO) {
+    return db
+      .updateTable('tableName')
+      .set({
+        //
+      })
+      .where('id', '=', payload.id)
+      .execute()
+  }
+
+  findById(id: string) {
+    return db.selectFrom('tableName').selectAll().where('id', '=', id).executeTakeFirst()
+  }
+
+/*
+  findBySlug(slug: string) {
+    return db
+      .selectFrom('tableName')
+      .select(['id', 'created_at']) // Add selected fields
+      .where('slug', '=', slug)
+      .executeTakeFirstOrThrow()
+  }
+  */
+}
