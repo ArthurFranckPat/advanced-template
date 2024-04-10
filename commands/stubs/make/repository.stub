@@ -1,6 +1,8 @@
-{{#var moduleName = string(moduleName).toString() }}
-{{#var repositoryName = string(repositoryName).singular().pascalCase().toString() }}
-{{#var fileName = string(repositoryName).snakeCase().suffix('_repository').ext('.ts').toString()}}
+{{#expect moduleName }}
+{{#expect name }}
+
+{{#var repositoryName = string(name).singular().pascalCase().toString() }}
+{{#var fileName = string(name).snakeCase().suffix('_repository').ext('.ts').toString()}}
 {{{
   exports({
     to: app.makePath('app',moduleName,'repositories',fileName)

@@ -1,18 +1,19 @@
-{{#var moduleName = string(moduleName).toString() }}
-{{#var controllerNamePlural = string(controllerName).pascalCase().plural().toString()}}
+
+{{#expect moduleName}}
+{{#expect name}}
+
+{{#var controllerNamePlural = string(name).pascalCase().plural().toString()}}
 {{#var fileName = string(controllerNamePlural).snakeCase().plural().suffix('_controller').ext('.tsx').toString()}}
+
 {{{
   exports({
     to: app.makePath('app',moduleName,'controllers',fileName)
   })
 }}}
 
-import { HttpContext } from '@adonisjs/core/http'
-import { inject } from '@adonisjs/core'
+import { HttpContext } from "@adonisjs/core/http"
 
-@inject()
 export default class {{ controllerNamePlural }}Controller {
-  constructor() {}
   render({}: HttpContext) {}
   execute({}: HttpContext) {}
 }

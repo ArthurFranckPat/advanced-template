@@ -1,0 +1,23 @@
+{{#expect moduleName }}
+{{#expect name }}
+
+{{#var serviceName = string(name).singular().pascalCase().toString() }}
+{{#var fileName = string(name).snakeCase().suffix('_service').ext('.ts').toString()}}
+
+{{{
+  exports({
+    to: app.makePath('app',moduleName,'services',fileName)
+  })
+}}}
+
+import { inject } from "@adonisjs/core"
+import { {{serviceName}}Repository } from "#{{string(moduleName).snakeCase()}}/repositories/{{ string(name).snakeCase()}}_repository"
+
+@inject()
+export class {{serviceName}}Service {
+  constructor(protected repository: {{serviceName}}Repository) {}
+
+  //async store() {}
+  //async update() {}
+  //async delete() {}
+}

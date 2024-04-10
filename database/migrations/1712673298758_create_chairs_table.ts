@@ -1,14 +1,9 @@
-{{{
-  exports({
-    to: app.migrationsPath(entity.path, migration.fileName)
-  })
-}}}
 import { Kysely } from 'kysely'
 
 export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
-    .createTable('{{ migration.tableName }}')
-    {{!-- .addColumn('id', 'uuid', (col) => col.primaryKey().defaultTo(sql`gen_random_uuid()`)) --}}
+    .createTable('chairs')
+    
     .addColumn('id', 'uuid', (col) => col.primaryKey().notNull())
     .addColumn('created_at', 'timestamp', (col) => col.notNull())
     .addColumn('updated_at', 'timestamp', (col) => col.notNull())
@@ -16,5 +11,5 @@ export async function up(db: Kysely<any>): Promise<void> {
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
-  await db.schema.dropTable('{{ migration.tableName }}').execute()
+  await db.schema.dropTable('chairs').execute()
 }

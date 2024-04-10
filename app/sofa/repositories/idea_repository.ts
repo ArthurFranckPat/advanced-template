@@ -1,3 +1,4 @@
+
 import { db } from '#core/services/db'
 import { ResultOf } from '#types/common'
 
@@ -6,17 +7,18 @@ interface UpdateDTO {
   id: string
 }
 
-export type ArticleListQueryResult = ResultOf<ArticleRepository, 'all'>
-//export type ArticleQueryResult = ResultOf<ArticleRepository, 'findBySlug'>
-export type ArticleByIdQueryResult = ResultOf<ArticleRepository, 'findById'>
+export type IdeaListQueryResult = ResultOf<IdeaRepository, 'all'>
+//export type IdeaQueryResult = ResultOf<IdeaRepository, 'findBySlug'>
+export type IdeaByIdQueryResult = ResultOf<IdeaRepository, 'findById'>
 
-export class ArticleRepository {
-  all() {
-    return db
-      .selectFrom('tableName')
-      .select(['id', 'created_at']) // Add Selected fields
-      .execute()
-  }
+
+export class IdeaRepository {
+ all() {
+ return db
+    .selectFrom('tableName') //replace 'tableName'
+    .select(['id', 'created_at']) // Add Selected fields
+    .execute()
+    }
 
   create(payload: StoreDTO) {
     return db
@@ -43,7 +45,7 @@ export class ArticleRepository {
     return db.selectFrom('tableName').selectAll().where('id', '=', id).executeTakeFirst()
   }
 
-  /*
+/*
   findBySlug(slug: string) {
     return db
       .selectFrom('tableName')
